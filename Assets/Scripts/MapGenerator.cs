@@ -8,8 +8,8 @@ public class MapGenerator : MonoBehaviour {
 
 	public Transform WallParent;
 
-	private int default_x_max = 19;
-	private int default_z_max = 19;
+	private int default_x_max = 1000;
+	private int default_z_max = 1000;
 
 
 	// Use this for initialization
@@ -37,14 +37,14 @@ public class MapGenerator : MonoBehaviour {
 	{
 		//ループしながらz軸の上と下２列に枠を作ります
 		for(int dx = 0; dx <= default_x_max; dx++){
-			createWall(DefaultWallPrefab, new Vector3(dx, 1.5f, 0));
-			createWall(DefaultWallPrefab, new Vector3(dx, 1.5f, default_z_max));
+			createWall(DefaultWallPrefab, new Vector3(dx*4, 1.5f, 0));
+			createWall(DefaultWallPrefab, new Vector3(dx*4, 1.5f, default_z_max*4));
 		}
 
 		//同じくx軸に右と左に枠を作ります
 		for(int dz = 0; dz <= default_z_max; dz++){
-			createWall(DefaultWallPrefab, new Vector3(0, 1.5f, dz));
-			createWall(DefaultWallPrefab, new Vector3(default_x_max, 1.5f, dz));
+			createWall(DefaultWallPrefab, new Vector3(0, 1.5f, dz*4));
+			createWall(DefaultWallPrefab, new Vector3(default_x_max, 1.5f, dz*4));
 		}
 		
 	}
@@ -66,7 +66,7 @@ public class MapGenerator : MonoBehaviour {
 				
 				//もしも０だったら壁ということで壁のプレハブをインスタンス化してループして出したx座標z座標を指定して設置
 				if(obj == 0){
-					createWall(WallPrefab, new Vector3(x + 1, 1.5f, z  + 1));
+					createWall(WallPrefab, new Vector3(x*4 + 4, 1.5f, z*4  + 4));
 				}
 			}
 		}
