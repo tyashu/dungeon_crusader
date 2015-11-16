@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
+	
 	internal enum MoveDirection
 	{
 		NoMove,
@@ -11,6 +12,7 @@ public class CameraController : MonoBehaviour {
 		ZMinus
 	}
 	
+	public GameSceneManager GameSceneManager;
 	
 	public float walkSpeed = 100.0f; //歩く速度
 	public float gravity = 10.0f;//重力加速度
@@ -21,7 +23,6 @@ public class CameraController : MonoBehaviour {
 
 	
 	public Transform TargetCamera;
-	public InputManager inputManager;
 
 	public CharacterController cController;
 
@@ -168,13 +169,13 @@ public class CameraController : MonoBehaviour {
 			fixZ =  (TargetCamera.position.z - (int) TargetCamera.position.z) - 1f;
 		}
 		TargetCamera.position += new Vector3(-fixX, 0, -fixZ);
-		inputManager.CurrentButtonState = InputManager.OnButtonState.Default;
+		GameSceneManager.SetMoveButtonState (MoveButtonState.Default);
 	}
 
 
 	private void JudgeInput(){
 		/////キー入力確認 各キーが押されているか
-		if (Input.GetKey(KeyCode.RightArrow) || inputManager.CurrentButtonState == InputManager.OnButtonState.OnRight){
+		if (Input.GetKey(KeyCode.RightArrow) || GameSceneManager.GetMoveButtonState() == MoveButtonState.OnRight){
 			goalRotateY = goalRotateY + 90;
 			if (goalRotateY >= 360) {
 				goalRotateY = goalRotateY - 360;
@@ -182,7 +183,7 @@ public class CameraController : MonoBehaviour {
 			inRotate = true;
 			rotateYPlus = true;
 		}
-		else if (Input.GetKey(KeyCode.LeftArrow)|| inputManager.CurrentButtonState == InputManager.OnButtonState.OnLeft){
+		else if (Input.GetKey(KeyCode.LeftArrow)|| GameSceneManager.GetMoveButtonState() == MoveButtonState.OnLeft){
 			goalRotateY = goalRotateY - 90;
 			if (goalRotateY < 0) {
 				goalRotateY = 360 + goalRotateY;
@@ -191,7 +192,7 @@ public class CameraController : MonoBehaviour {
 			inRotate = true;
 			rotateYPlus = false;
 		}
-		else if (Input.GetKey(KeyCode.UpArrow)|| inputManager.CurrentButtonState == InputManager.OnButtonState.OnUp){
+		else if (Input.GetKey(KeyCode.UpArrow)|| GameSceneManager.GetMoveButtonState() == MoveButtonState.OnUp){
 			inMove = true; 
 			currentX = TargetCamera.position.x;
 			currentZ = TargetCamera.position.z;

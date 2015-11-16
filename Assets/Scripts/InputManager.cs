@@ -3,14 +3,10 @@ using System.Collections;
 
 public class InputManager : MonoBehaviour {
 
-	public enum OnButtonState{
-		Default,
-		OnUp,
-		OnRight,
-		OnLeft
-	}
+	public GameSceneManager GameSceneManager;
 
-	public OnButtonState CurrentButtonState = OnButtonState.Default;
+
+	public MoveButtonState CurrentButtonState = MoveButtonState.Default;
 
 
 	// Update is called once per frame
@@ -18,25 +14,49 @@ public class InputManager : MonoBehaviour {
 	
 	}
 
+
+	/** Move Buttons */
+
+
 	public void OnUpButtonDown()
 	{
-		CurrentButtonState = OnButtonState.OnUp;
+		CurrentButtonState = MoveButtonState.OnUp;
 	}
 
 	
 	public void OnButtonUp()
 	{
-		CurrentButtonState = OnButtonState.Default;
+		CurrentButtonState = MoveButtonState.Default;
 	}
 
 	
 	public void OnRightButtonDown()
 	{
-		CurrentButtonState = OnButtonState.OnRight;
+		CurrentButtonState = MoveButtonState.OnRight;
 	}
 	
 	public void OnLeftButtonDown()
 	{
-		CurrentButtonState = OnButtonState.OnLeft;
+		CurrentButtonState = MoveButtonState.OnLeft;
 	}
+
+
+
+	/** Panel select */
+
+	public void OnSelectStatusPanel()
+	{
+		GameSceneManager.SelectPanelStatus (PanelName.Status);
+	}
+	
+	public void OnSelectItemPanel()
+	{
+		GameSceneManager.SelectPanelStatus (PanelName.Item);
+	}
+
+	public void OnSelectMapPanel()
+	{
+		GameSceneManager.SelectPanelStatus (PanelName.Map);
+	}
+
 }
