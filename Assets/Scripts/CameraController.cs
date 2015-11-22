@@ -36,19 +36,28 @@ public class CameraController : MonoBehaviour {
 	private Vector3 goalPos;
 	public float currentX = 0;
 	public float currentZ = 0;
+	public bool wallFlg = false;
 	public bool inMove = false;
+	private bool moveStart = false;
 	public float moveCount = 0;
 	public float inMoveCount = 0;
+
+	public float DefaultMoveWaitCount = 0.5f;
+	public float MoveWaitCount ;
 	
 	void Awake (){
+		MoveWaitCount = DefaultMoveWaitCount;
+		wallFlg = false;
 	}
 	
-	void FixedUpdate () {
+	void Update () {
 		if (rotate()) {
+			MoveWaitCount = DefaultMoveWaitCount; 
 			return;
 		}
 
 		if (move ()) {
+			MoveWaitCount = DefaultMoveWaitCount;
 			return;
 		}
 
@@ -86,27 +95,27 @@ public class CameraController : MonoBehaviour {
 
 	private bool move(){
 		if (inMove) {
+
 			float SpeedY = -gravity, SpeedZ = 0f;
 			velocity = Vector3.zero;
 
 			bool goal = false;
 
-			if(isOverMove()){
+			if (isOverMove ()) {
+				goal = true;
+			}else if((goalPos - TargetCamera.position).magnitude < 0.2f){
 				goal = true;
 			}
-			if(currentX == TargetCamera.position.x && currentZ == TargetCamera.position.z){
-				moveCount += Time.deltaTime;
-				if(moveCount > 0.5f){
-					goal = true;
-					moveCount = 0;
-				}
-			}else{
+ 
+			if (moveCount > 0.05f) {
+				goal = true;
+				wallFlg = true;
 				moveCount = 0;
 			}
 
-			if(goal){
-				moveGoal();
-			}else{
+			if (goal) {
+				moveGoal ();
+			} else {
 				SpeedZ = 1f;
 				velocity.y += SpeedY;
 				velocity += TargetCamera.forward * SpeedZ;
@@ -114,15 +123,27 @@ public class CameraController : MonoBehaviour {
 			}
 			
 			//キャラクターコントローラーの移動
-			cController.Move(velocity * walkSpeed * Time.deltaTime);
-			
+			cController.Move (velocity * walkSpeed * Time.deltaTime);
+
+			if (currentX == TargetCamera.position.x && currentZ == TargetCamera.position.z) {
+				moveCount += Time.deltaTime;
+			} else {
+				if(moveStart){
+					SoundManager.Instance.PlaySE("se1");
+					moveStart = false;
+				}
+				moveCount = 0;
+			}
+
+
 			currentX = TargetCamera.position.x;
 			currentZ = TargetCamera.position.z;
 
 			return true;
-		}
+		} 
 		return false;
 	}
+
 
 	private bool isOverMove(){
 		bool over = false;
@@ -155,6 +176,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	private void moveGoal(){
+
 		inMove = false;
 		float fixX;
 		float fixZ;
@@ -170,47 +192,73 @@ public class CameraController : MonoBehaviour {
 		}
 		TargetCamera.position += new Vector3(-fixX, 0, -fixZ);
 		GameSceneManager.SetMoveButtonState (MoveButtonState.Default);
+
 	}
 
 
 	private void JudgeInput(){
 		/////キー入力確認 各キーが押されているか
-		if (Input.GetKey(KeyCode.RightArrow) || GameSceneManager.GetMoveButtonState() == MoveButtonState.OnRight){
-			goalRotateY = goalRotateY + 90;
-			if (goalRotateY >= 360) {
-				goalRotateY = goalRotateY - 360;
-			}
-			inRotate = true;
-			rotateYPlus = true;
-		}
-		else if (Input.GetKey(KeyCode.LeftArrow)|| GameSceneManager.GetMoveButtonState() == MoveButtonState.OnLeft){
-			goalRotateY = goalRotateY - 90;
-			if (goalRotateY < 0) {
-				goalRotateY = 360 + goalRotateY;
-			}
-			
-			inRotate = true;
-			rotateYPlus = false;
-		}
-		else if (Input.GetKey(KeyCode.UpArrow)|| GameSceneManager.GetMoveButtonState() == MoveButtonState.OnUp){
-			inMove = true; 
-			currentX = TargetCamera.position.x;
-			currentZ = TargetCamera.position.z;
-			goalPos = TargetCamera.position + TargetCamera.forward * MoveUnit;
-			if(currentX < goalPos.x){
-				moveDirection = MoveDirection.XPlus;
-			}else if(currentX > goalPos.x){
-				moveDirection = MoveDirection.XMinus;
-			}else if(currentZ < goalPos.z){
-				moveDirection = MoveDirection.ZPlus;
-			}else if(currentZ > goalPos.z){
-				moveDirection = MoveDirection.ZMinus;
-			}else{
-				moveDirection = MoveDirection.NoMove;
-			}
-			moveCount = 0;
-			inMoveCount = MoveUnit;
+		if (Input.GetKey (KeyCode.RightArrow) || GameSceneManager.GetMoveButtonState () == MoveButtonState.OnRight) {
+			rotateRight();
+		} else if (Input.GetKey (KeyCode.LeftArrow) || GameSceneManager.GetMoveButtonState () == MoveButtonState.OnLeft) {
+			rotateLeft();
+		} else if (Input.GetKey (KeyCode.UpArrow) || GameSceneManager.GetMoveButtonState () == MoveButtonState.OnUp) {
+			moveUp();
 
+		} else {
+			if(!wallFlg){
+				MoveWaitCount -= Time.deltaTime;
+				if(MoveWaitCount < 0){
+					MoveWaitCount = DefaultMoveWaitCount;
+					moveUp();
+				}
+			}
 		}
+	}
+
+	private void rotateRight(){
+		goalRotateY = goalRotateY + 90;
+		if (goalRotateY >= 360) {
+			goalRotateY = goalRotateY - 360;
+		}
+		inRotate = true;
+		wallFlg = false;
+		rotateYPlus = true;
+	}
+
+	private void rotateLeft(){
+		goalRotateY = goalRotateY - 90;
+		if (goalRotateY < 0) {
+			goalRotateY = 360 + goalRotateY;
+		}
+		
+		inRotate = true;
+		wallFlg = false;
+		rotateYPlus = false;
+	}
+
+	private void moveUp(){
+		if (wallFlg) {
+			return;
+		}
+		inMove = true; 
+		currentX = TargetCamera.position.x;
+		currentZ = TargetCamera.position.z;
+		goalPos = TargetCamera.position + TargetCamera.forward * MoveUnit;
+		if (currentX < goalPos.x) {
+			moveDirection = MoveDirection.XPlus;
+		} else if (currentX > goalPos.x) {
+			moveDirection = MoveDirection.XMinus;
+		} else if (currentZ < goalPos.z) {
+			moveDirection = MoveDirection.ZPlus;
+		} else if (currentZ > goalPos.z) {
+			moveDirection = MoveDirection.ZMinus;
+		} else {
+			moveDirection = MoveDirection.NoMove;
+		}
+		moveCount = 0;
+		moveStart = true;
+		inMoveCount = MoveUnit;
+
 	}
 }

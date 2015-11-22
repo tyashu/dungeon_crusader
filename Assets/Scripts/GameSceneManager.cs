@@ -27,6 +27,9 @@ public class GameSceneManager : MonoBehaviour {
 
 
 	void Awake () {
+
+		Application.targetFrameRate = 20;
+		SoundManager.Instance.PlayBGM("bgm1");
 	}
 
 	// Use this for initialization
