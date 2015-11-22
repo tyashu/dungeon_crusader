@@ -549,9 +549,12 @@ MonoBehaviour:
   inRotate: 0
   currentX: 0
   currentZ: 0
+  wallFlg: 0
   inMove: 0
   moveCount: 0
   inMoveCount: 0
+  DefaultMoveWaitCount: .5
+  MoveWaitCount: 0
 --- !u!4 &411828865
 Transform:
   m_ObjectHideFlags: 0
@@ -1231,8 +1234,8 @@ Camera:
   m_GameObject: {fileID: 926423058}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 3
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
