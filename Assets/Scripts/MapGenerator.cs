@@ -31,6 +31,7 @@ public class MapGenerator : MonoBehaviour {
 	private void createWall(GameObject prefab, Vector3 position){
 		GameObject obj = Instantiate(prefab, position, Quaternion.identity) as GameObject;
 		obj.transform.SetParent (WallParent);
+		obj.layer = LayerMask.NameToLayer ("Wall");
 	}
 
 	
