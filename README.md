@@ -1,6 +1,11 @@
 # dungeon_crusader
 例のあれ
 
+画像
+敵画像
+http://members.jcom.home.ne.jp/hide.mats/b031-060.htm#30
+
+
 フォント
 PixelMplus（ピクセル・エムプラス） ‥ 8bitビットマップふうフリーフォント
 http://itouhiro.hatenablog.com/entry/20130602/font
