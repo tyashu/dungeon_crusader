@@ -24,7 +24,10 @@ public class GameSceneManager : MonoBehaviour {
 	public MapGenerator MapGenerator;
 
 	public PanelSelect PanelSelect;
+	
+	public BattleManager BattleManager;
 
+	public MiniMapManager MiniMapManager;
 
 	void Awake () {
 

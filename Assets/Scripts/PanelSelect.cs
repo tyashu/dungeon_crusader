@@ -17,16 +17,32 @@ public class PanelSelect : MonoBehaviour {
 
 		switch (CurrentPanel) {
 		case PanelName.Status:
-			StatusPanel.SetAsLastSibling();
+			SelectStatusPanel();
 			break;
 		case PanelName.Item:
-			ItemPanel.SetAsLastSibling();
+			SelectItemPanel();
 			break;
 		case PanelName.Map:
-			MapPanel.SetAsLastSibling();
+			SelectMapPanel();
 			break;
 		default:
 			break;
 		}
+	}
+
+	private void SelectStatusPanel(){
+		StatusPanel.SetAsLastSibling();
+		GameSceneManager.MiniMapManager.HideMiniMap ();
+	}
+
+	
+	private void SelectItemPanel(){
+		ItemPanel.SetAsLastSibling();
+		GameSceneManager.MiniMapManager.HideMiniMap ();
+	}
+	
+	private void SelectMapPanel(){
+		MapPanel.SetAsLastSibling();
+		GameSceneManager.MiniMapManager.ShowMiniMap ();
 	}
 }
