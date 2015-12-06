@@ -4,16 +4,25 @@ using System.Collections;
 public class InputManager : MonoBehaviour {
 
 	public GameSceneManager GameSceneManager;
-
-
+	
 	public MoveButtonState CurrentButtonState = MoveButtonState.Default;
 
+	public GameObject ButtonParent;
 
 	// Update is called once per frame
 	void Update () {
 	
 	}
 
+	public void ShowMoveButton()
+	{
+		ButtonParent.SetActive (true);
+	}
+
+	public void HideMoveButton()
+	{
+		ButtonParent.SetActive (false);
+	}
 
 	/** Move Buttons */
 

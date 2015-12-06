@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum MoveButtonState{
 	Default,
@@ -29,9 +30,15 @@ public class GameSceneManager : MonoBehaviour {
 
 	public MiniMapManager MiniMapManager;
 
-	void Awake () {
+	public MapData MapData;
 
+	public int CurrentPosVal;
+
+	void Awake () {
 		Application.targetFrameRate = 20;
+		MapData = new MapData ();
+		MapGenerator.CreateMap ();
+		InputManager.HideMoveButton ();
 	}
 
 	// Use this for initialization
@@ -67,4 +74,30 @@ public class GameSceneManager : MonoBehaviour {
 		PanelSelect.SelectPanel (name);
 	}
 
+	public void OnMoveEnd(){
+		CurrentPosVal = MapData.GetValOfPos (CameraController.currentX, CameraController.currentZ);
+
+		if (CurrentPosVal >= 30 && CurrentPosVal < 40) {
+			
+			CameraController.AutoMoveFlg = false;
+			InputManager.ShowMoveButton ();
+			int floor = MapData.FindFloorWithJumpNum(CurrentPosVal);
+			MapData.CurrentFloor = floor;
+			MapGenerator.ReCreateMap(CurrentPosVal);
+
+		}else if (CurrentPosVal == 2) {
+			CameraController.AutoMoveFlg = false; 
+			InputManager.ShowMoveButton ();
+		} else if (!CameraController.CanMoveToNextPos ()) {
+			CameraController.AutoMoveFlg = false;
+			InputManager.ShowMoveButton ();
+		}else if(CameraController.CanMoveToRightPos() || CameraController.CanMoveToLeftPos()){
+			CameraController.AutoMoveFlg = false;
+			InputManager.ShowMoveButton ();
+
+		}else{
+			CameraController.AutoMoveFlg = true;
+			InputManager.HideMoveButton();
+		}
+	}
 }
