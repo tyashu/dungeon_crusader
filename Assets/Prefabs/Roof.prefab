@@ -1,46 +1,46 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &138140
+--- !u!1 &174436
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 465976}
-  - 33: {fileID: 3323436}
-  - 64: {fileID: 6428666}
-  - 23: {fileID: 2359956}
+  - 4: {fileID: 480120}
+  - 33: {fileID: 3388110}
+  - 64: {fileID: 6405024}
+  - 23: {fileID: 2323354}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &465976
+--- !u!4 &480120
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138140}
+  m_GameObject: {fileID: 174436}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 499.5, y: -.5, z: 499.5}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalPosition: {x: 499.5, y: 4.5999999, z: 499.5}
+  m_LocalScale: {x: 100, y: -1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2359956
+--- !u!23 &2323354
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138140}
+  m_GameObject: {fileID: 174436}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 46af079bac94d4c1fb6735e2f318b1e9, type: 2}
+  - {fileID: 2100000, guid: 75502ef0d80a049d0837d3e1657cb836, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -54,19 +54,19 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3323436
+--- !u!33 &3388110
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138140}
+  m_GameObject: {fileID: 174436}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6428666
+--- !u!64 &6405024
 MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138140}
+  m_GameObject: {fileID: 174436}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -82,5 +82,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 138140}
+  m_RootGameObject: {fileID: 174436}
   m_IsPrefabParent: 1
