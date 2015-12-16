@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public enum MoveButtonState{
 	Default,
@@ -34,11 +35,15 @@ public class GameSceneManager : MonoBehaviour {
 
 	public int CurrentPosVal;
 
+	public Text FloorText;
+
 	void Awake () {
 		Application.targetFrameRate = 20;
 		MapData = new MapData ();
 		MapGenerator.CreateMap ();
 		InputManager.HideMoveButton ();
+
+		SetFloorText ();
 	}
 
 	// Use this for initialization
@@ -52,6 +57,16 @@ public class GameSceneManager : MonoBehaviour {
 	
 	}
 
+	private void SetFloorText(){
+		string floor;
+		if (MapData.CurrentFloor == 0) {
+			floor = "B1";
+		} else {
+			floor = MapData.CurrentFloor.ToString();
+		}
+
+		FloorText.text = floor + "F";
+	}
 
 	// move button status
 
@@ -84,6 +99,7 @@ public class GameSceneManager : MonoBehaviour {
 			int floor = MapData.FindFloorWithJumpNum(CurrentPosVal);
 			MapData.CurrentFloor = floor;
 			MapGenerator.ReCreateMap(CurrentPosVal);
+			SetFloorText ();
 
 		}else if (CurrentPosVal == 2) {
 			CameraController.AutoMoveFlg = false; 
